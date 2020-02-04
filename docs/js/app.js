@@ -1,42 +1,9 @@
-// const obj = {
-
-// }
-
-
 function getData(route, params){
-const apiKey = "8ff1964e3739e2af5c150b85ecad19de";
+    const apiKey = "8ff1964e3739e2af5c150b85ecad19de";
     
     return fetch(`https://api.themoviedb.org/3/${route}?api_key=${apiKey}&${params}`)
-        // .then(data => data.json())
-        // .then(data => {
-        //         console.log(data)
-        //         init(data);
-        //    return;
-        // })
-        // .catch(err => console.log(err))
 }
 
-// function toJSON(data){
-//     data.j
-// }
-
-
-const genre = getData("discover/movie", "with_genres=27")
-.then(data => data.json())
-.then(jsonData => {
-    console.log(jsonData)
-    jsonData.results.forEach(obj => {
-    const article = createAndAppend(
-            "article", 
-            document.querySelector("main")
-        )
-        createAndAppend(          
-            "h1",
-            document.querySelector("article"),
-            obj.title
-        )
-    })
-})
 
 
 
@@ -44,16 +11,21 @@ function createAndAppend (node, targetNode, template,  position){
    
     try{
         // isArgumentGiven([template, node, targetNode])
-        console.log(isArgumentGiven([node, targetNode]))
-        if(isArgumentGiven([node, targetNode])){
+        console.log(isArgumentGiven([node]))
+        if(isArgumentGiven([node])){
 
             const element = document.createElement(node);
+            if(targetNode){
+                targetNode.appendChild(element)
+                
+            }
             if(template){
                 element.textContent = template;
+               
             }
-
-            targetNode.append(element)
-
+            
+            return element;
+           
         }else{
             // console.log(isArgumentGiven([template, node, targetNode]))
         }
@@ -84,23 +56,43 @@ function isArgumentGiven(args){
     }else{
         throw Error("Given value isn't an array or is an empty array")
     }
-
-    args.forEach(argument => {
-        return argument !== undefined ? true : false;
-    })
     
 }
 
 
-function init(data){
-    let node = document.querySelector("#content")
-    console.log(data.results)
+function genre(params){
+    getData("discover/movie", params)
+        .then(data => data.json())
+        .then(jsonData => {
+            console.log(jsonData)
+            const section = createAndAppend("section", document.querySelector("main"));
+            console.log(section)
+            jsonData.results.forEach(obj => {
+                
+                const article = createAndAppend("article", section);
+            
+                    createAndAppend(          
+                        "h1",
+                        article,
+                        obj.title
+                    );
+                    const image = createAndAppend(          
+                        "img",
+                        article
+                    );
+            
+                    image.src = `https://image.tmdb.org/t/p/w342/${obj.poster_path}`;
+            
+            
+                    section.append(article)
+            })
+        })
+} 
 
-    data.results.forEach(obj => {
-        // console.log(node)
-        createAndAppend(obj.title, "h1", node)
-    })
-
-   
+function init(){
+    
+    genre("with_genres=27")
+    
 }
 
+init()
