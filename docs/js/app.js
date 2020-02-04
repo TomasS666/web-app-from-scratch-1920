@@ -2,62 +2,73 @@
 
 // }
 
-fetch("https://api.themoviedb.org/3/movie/popular?api_key=8ff1964e3739e2af5c150b85ecad19de&page=10")
-    .then(data => data.json())
-    .then(data => {
-        console.log(data)
-        init(data)
-        // obj.data = data
-    })
-    .catch(err => console.log(err))
 
-
-function render (template, node, targetNode, position){
-    // targetNode.insertAdjacentHTML(
-    //     position ? position : "afterbegin",
-    //     template
-    // )
-
-    // Check if the required arguments ar
-   
+function getData(route, params){
+const apiKey = "8ff1964e3739e2af5c150b85ecad19de";
     
+    return fetch(`https://api.themoviedb.org/3/${route}?api_key=${apiKey}&${params}`)
+        // .then(data => data.json())
+        // .then(data => {
+        //         console.log(data)
+        //         init(data);
+        //    return;
+        // })
+        // .catch(err => console.log(err))
+}
+
+// function toJSON(data){
+//     data.j
+// }
+
+
+const genre = getData("discover/movie", "with_genres=27")
+.then(data => data.json())
+.then(jsonData => {
+    console.log(jsonData)
+    jsonData.results.forEach(obj => {
+    const article = createAndAppend(
+            "article", 
+            document.querySelector("main")
+        )
+        createAndAppend(          
+            "h1",
+            document.querySelector("article"),
+            obj.title
+        )
+    })
+})
+
+
+
+function createAndAppend (node, targetNode, template,  position){
+   
     try{
         // isArgumentGiven([template, node, targetNode])
-        console.log(isArgumentGiven([template, node, targetNode]))
-        if(isArgumentGiven([template, node, targetNode])){
+        console.log(isArgumentGiven([node, targetNode]))
+        if(isArgumentGiven([node, targetNode])){
 
             const element = document.createElement(node);
-            element.textContent = template;
+            if(template){
+                element.textContent = template;
+            }
 
             targetNode.append(element)
 
         }else{
-            console.log(isArgumentGiven([template, node, targetNode]))
+            // console.log(isArgumentGiven([template, node, targetNode]))
         }
 
     }
     catch(err){
         console.log(err)
     }
-    
-
-    
-
-  
-
- 
+     
 }
 
 function isArgumentGiven(args){
     if(Array.isArray(args) && args.length){
         // If the given arguments are given in an array
         // Check for every argument if it's not undefined
-        // r
-
-        console.log(args.every(argument => {
-            argument !== undefined
-        }))
-
     
         const checkIfUndefined = args.every(argument => {
             return argument !== undefined
@@ -87,7 +98,7 @@ function init(data){
 
     data.results.forEach(obj => {
         // console.log(node)
-        render(obj.title, "h1", node)
+        createAndAppend(obj.title, "h1", node)
     })
 
    
