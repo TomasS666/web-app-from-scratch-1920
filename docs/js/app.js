@@ -4,9 +4,6 @@ function getData(route, params){
     return fetch(`https://api.themoviedb.org/3/${route}?api_key=${apiKey}&${params}`)
 }
 
-
-
-
 function createAndAppend (node, targetNode, template,  position){
    
     try{
@@ -17,11 +14,9 @@ function createAndAppend (node, targetNode, template,  position){
             const element = document.createElement(node);
             if(targetNode){
                 targetNode.appendChild(element)
-                
             }
             if(template){
                 element.textContent = template;
-               
             }
             
             return element;
@@ -29,12 +24,10 @@ function createAndAppend (node, targetNode, template,  position){
         }else{
             // console.log(isArgumentGiven([template, node, targetNode]))
         }
-
     }
     catch(err){
         console.log(err)
     }
-     
 }
 
 function isArgumentGiven(args){
@@ -52,7 +45,6 @@ function isArgumentGiven(args){
             throw Error("One or more given values are undefined")
         }
         
-
     }else{
         throw Error("Given value isn't an array or is an empty array")
     }
@@ -65,24 +57,23 @@ function genre(params){
         .then(data => data.json())
         .then(jsonData => {
             console.log(jsonData)
+            
             const section = createAndAppend("section", document.querySelector("main"));
-            console.log(section)
             jsonData.results.forEach(obj => {
                 
                 const article = createAndAppend("article", section);
-            
-                    createAndAppend(          
-                        "h1",
-                        article,
-                        obj.title
-                    );
-                    const image = createAndAppend(          
-                        "img",
-                        article
-                    );
+             
+                createAndAppend(          
+                    "h1",
+                    article,
+                    obj.title
+                );
+                const image = createAndAppend(          
+                    "img",
+                    article
+                );
             
                     image.src = `https://image.tmdb.org/t/p/w342/${obj.poster_path}`;
-            
             
                     section.append(article)
             })
@@ -90,8 +81,17 @@ function genre(params){
 } 
 
 function init(){
+
+    const genreIds = [27, 28];
+
+    getData("/genre/movie/list")
+    .then(data => data.json())
+
     
-    genre("with_genres=27")
+    genreIds.forEach(genreId => {
+        genre(`with_genres=${genreId}`)
+    })
+    
     
 }
 
