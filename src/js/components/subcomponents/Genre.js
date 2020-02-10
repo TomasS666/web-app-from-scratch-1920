@@ -8,7 +8,7 @@ import { fakeData } from "../../helpers/data/fakeData"
 
 console.log(fakeData)
 
-function Genre(params, name){
+function Genre(params, genreObj){
     console.log("test")
     // getData("discover/movie", params)
     //     .then(data => data.json())
@@ -17,16 +17,31 @@ function Genre(params, name){
             const jsonData = fakeData;
 
             const section = createAndAppend("section", document.querySelector("main"));
-            section.setAttribute("data-genre-name", name)
+            const h2 = createAndAppend("h2", section);
+            const wrapper = createAndAppend("div", section)
+
+            section.setAttribute("data-genre-name", genreObj.name)
+            h2.textContent = genreObj.name;
+            wrapper.setAttribute("class", "wrapper")
+
+
             jsonData.results.forEach(obj => {
                 
-                const article = createAndAppend("article", section);
+                const article = createAndAppend("article", wrapper);
              
-                createAndAppend(          
-                    "h1",
+                const h3 = createAndAppend(          
+                    "h3",
                     article,
                     obj.title
                 );
+
+                const link = createAndAppend(
+                    "a",
+                    article,
+                    "Meer lezen"
+                )
+
+                link.setAttribute("href", `#movie/${obj.id}`)
                 const image = createAndAppend(          
                     "img",
                     article
@@ -34,8 +49,9 @@ function Genre(params, name){
             
                     image.src = `https://image.tmdb.org/t/p/w342/${obj.poster_path}`;
             
-                    section.append(article)
+                    
             })
+            section.append(wrapper)
         // })
 } 
 

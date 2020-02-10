@@ -117,79 +117,231 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
+})({"js/helpers/router/routie.js":[function(require,module,exports) {
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
+/*!
+ * routie - a tiny hash router
+ * v0.3.2
+ * http://projects.jga.me/routie
+ * copyright Greg Allen 2016
+ * MIT License
+*/
+var Routie = function Routie(w, isModule) {
+  var routes = [];
+  var map = {};
+  var reference = "routie";
+  var oldReference = w[reference];
 
-  return bundleURL;
-}
-
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
-
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-
-  newLink.onload = function () {
-    link.remove();
+  var Route = function Route(path, name) {
+    this.name = name;
+    this.path = path;
+    this.keys = [];
+    this.fns = [];
+    this.params = {};
+    this.regex = pathToRegexp(this.path, this.keys, false, false);
   };
 
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
+  Route.prototype.addHandler = function (fn) {
+    this.fns.push(fn);
+  };
 
-var cssTimeout = null;
+  Route.prototype.removeHandler = function (fn) {
+    for (var i = 0, c = this.fns.length; i < c; i++) {
+      var f = this.fns[i];
 
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
-
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
+      if (fn == f) {
+        this.fns.splice(i, 1);
+        return;
       }
     }
+  };
 
-    cssTimeout = null;
-  }, 50);
+  Route.prototype.run = function (params) {
+    for (var i = 0, c = this.fns.length; i < c; i++) {
+      this.fns[i].apply(this, params);
+    }
+  };
+
+  Route.prototype.match = function (path, params) {
+    var m = this.regex.exec(path);
+    if (!m) return false;
+
+    for (var i = 1, len = m.length; i < len; ++i) {
+      var key = this.keys[i - 1];
+      var val = 'string' == typeof m[i] ? decodeURIComponent(m[i]) : m[i];
+
+      if (key) {
+        this.params[key.name] = val;
+      }
+
+      params.push(val);
+    }
+
+    return true;
+  };
+
+  Route.prototype.toURL = function (params) {
+    var path = this.path;
+
+    for (var param in params) {
+      path = path.replace('/:' + param, '/' + params[param]);
+    }
+
+    path = path.replace(/\/:.*\?/g, '/').replace(/\?/g, '');
+
+    if (path.indexOf(':') != -1) {
+      throw new Error('missing parameters for url: ' + path);
+    }
+
+    return path;
+  };
+
+  var pathToRegexp = function pathToRegexp(path, keys, sensitive, strict) {
+    if (path instanceof RegExp) return path;
+    if (path instanceof Array) path = '(' + path.join('|') + ')';
+    path = path.concat(strict ? '' : '/?').replace(/\/\(/g, '(?:/').replace(/\+/g, '__plus__').replace(/(\/)?(\.)?:(\w+)(?:(\(.*?\)))?(\?)?/g, function (_, slash, format, key, capture, optional) {
+      keys.push({
+        name: key,
+        optional: !!optional
+      });
+      slash = slash || '';
+      return '' + (optional ? '' : slash) + '(?:' + (optional ? slash : '') + (format || '') + (capture || format && '([^/.]+?)' || '([^/]+?)') + ')' + (optional || '');
+    }).replace(/([\/.])/g, '\\$1').replace(/__plus__/g, '(.+)').replace(/\*/g, '(.*)');
+    return new RegExp('^' + path + '$', sensitive ? '' : 'i');
+  };
+
+  var addHandler = function addHandler(path, fn) {
+    var s = path.split(' ');
+    var name = s.length == 2 ? s[0] : null;
+    path = s.length == 2 ? s[1] : s[0];
+
+    if (!map[path]) {
+      map[path] = new Route(path, name);
+      routes.push(map[path]);
+    }
+
+    map[path].addHandler(fn);
+  };
+
+  var routie = function routie(path, fn) {
+    if (typeof fn == 'function') {
+      addHandler(path, fn);
+      routie.reload();
+    } else if (_typeof(path) == 'object') {
+      for (var p in path) {
+        addHandler(p, path[p]);
+      }
+
+      routie.reload();
+    } else if (typeof fn === 'undefined') {
+      routie.navigate(path);
+    }
+  };
+
+  routie.lookup = function (name, obj) {
+    for (var i = 0, c = routes.length; i < c; i++) {
+      var route = routes[i];
+
+      if (route.name == name) {
+        return route.toURL(obj);
+      }
+    }
+  };
+
+  routie.remove = function (path, fn) {
+    var route = map[path];
+    if (!route) return;
+    route.removeHandler(fn);
+  };
+
+  routie.removeAll = function () {
+    map = {};
+    routes = [];
+  };
+
+  routie.navigate = function (path, options) {
+    options = options || {};
+    var silent = options.silent || false;
+
+    if (silent) {
+      removeListener();
+    }
+
+    setTimeout(function () {
+      window.location.hash = path;
+
+      if (silent) {
+        setTimeout(function () {
+          addListener();
+        }, 1);
+      }
+    }, 1);
+  };
+
+  routie.noConflict = function () {
+    w[reference] = oldReference;
+    return routie;
+  };
+
+  var getHash = function getHash() {
+    return window.location.hash.substring(1);
+  };
+
+  var checkRoute = function checkRoute(hash, route) {
+    var params = [];
+
+    if (route.match(hash, params)) {
+      route.run(params);
+      return true;
+    }
+
+    return false;
+  };
+
+  var hashChanged = routie.reload = function () {
+    var hash = getHash();
+
+    for (var i = 0, c = routes.length; i < c; i++) {
+      var route = routes[i];
+
+      if (checkRoute(hash, route)) {
+        return;
+      }
+    }
+  };
+
+  var addListener = function addListener() {
+    if (w.addEventListener) {
+      w.addEventListener('hashchange', hashChanged, false);
+    } else {
+      w.attachEvent('onhashchange', hashChanged);
+    }
+  };
+
+  var removeListener = function removeListener() {
+    if (w.removeEventListener) {
+      w.removeEventListener('hashchange', hashChanged);
+    } else {
+      w.detachEvent('onhashchange', hashChanged);
+    }
+  };
+
+  addListener();
+
+  if (isModule) {
+    return routie;
+  } else {
+    w[reference] = routie;
+  }
+};
+
+if (typeof module == 'undefined') {
+  Routie(window);
+} else {
+  module.exports = Routie(window, true);
 }
-
-module.exports = reloadCSS;
-},{"./bundle-url":"C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"css/styles.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -393,5 +545,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
-//# sourceMappingURL=/styles.b61e60ae.js.map
+},{}]},{},["C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","js/helpers/router/routie.js"], null)
+//# sourceMappingURL=/routie.6e0a45ba.js.map

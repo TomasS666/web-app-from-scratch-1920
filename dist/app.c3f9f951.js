@@ -580,7 +580,7 @@ var _fakeData = require("../../helpers/data/fakeData");
 
 console.log(_fakeData.fakeData);
 
-function Genre(params, name) {
+function Genre(params, genreObj) {
   console.log("test"); // getData("discover/movie", params)
   //     .then(data => data.json())
   //     .then(jsonData => {
@@ -588,33 +588,336 @@ function Genre(params, name) {
 
   var jsonData = _fakeData.fakeData;
   var section = (0, _createAndAppend.createAndAppend)("section", document.querySelector("main"));
-  section.setAttribute("data-genre-name", name);
+  var h2 = (0, _createAndAppend.createAndAppend)("h2", section);
+  var wrapper = (0, _createAndAppend.createAndAppend)("div", section);
+  section.setAttribute("data-genre-name", genreObj.name);
+  h2.textContent = genreObj.name;
+  wrapper.setAttribute("class", "wrapper");
   jsonData.results.forEach(function (obj) {
-    var article = (0, _createAndAppend.createAndAppend)("article", section);
-    (0, _createAndAppend.createAndAppend)("h1", article, obj.title);
+    var article = (0, _createAndAppend.createAndAppend)("article", wrapper);
+    var h3 = (0, _createAndAppend.createAndAppend)("h3", article, obj.title);
+    var link = (0, _createAndAppend.createAndAppend)("a", article, "Meer lezen");
+    link.setAttribute("href", "#movie/".concat(obj.id));
     var image = (0, _createAndAppend.createAndAppend)("img", article);
     image.src = "https://image.tmdb.org/t/p/w342/".concat(obj.poster_path);
-    section.append(article);
-  }); // })
+  });
+  section.append(wrapper); // })
 }
-},{"../../helpers/createAndAppend.js":"js/helpers/createAndAppend.js","../../helpers/data/getData":"js/helpers/data/getData.js","../../helpers/data/fakeData":"js/helpers/data/fakeData.js"}],"js/app.js":[function(require,module,exports) {
+},{"../../helpers/createAndAppend.js":"js/helpers/createAndAppend.js","../../helpers/data/getData":"js/helpers/data/getData.js","../../helpers/data/fakeData":"js/helpers/data/fakeData.js"}],"js/components/subcomponents/Movie.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Movie = Movie;
+
+var _getData = require("../../helpers/data/getData");
+
+var _createAndAppend = require("../../helpers/createAndAppend");
+
+function Movie(id) {
+  console.log(id + "fwefe");
+  (0, _getData.getData)("movie/".concat(id)).then(function (data) {
+    return data.json();
+  }).then(function (json) {
+    return console.log(json);
+  });
+}
+},{"../../helpers/data/getData":"js/helpers/data/getData.js","../../helpers/createAndAppend":"js/helpers/createAndAppend.js"}],"js/components/views/views.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Home = Home;
+exports.DetailSingle = DetailSingle;
+
+var _genreList = _interopRequireDefault(require("../../genreList"));
+
+var _Genre = require("../subcomponents/Genre");
+
+var _Movie = require("../subcomponents/Movie");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Home() {
+  //     genreList.forEach(obj => {
+  //        Genre(`with_genres=${obj.id}`, obj.name)
+  //    })
+  // console.log(Genre)
+  (0, _Genre.Genre)("with_genres=".concat(27), {
+    id: 27,
+    name: "Horror"
+  });
+  return;
+}
+
+function DetailSingle(id) {
+  (0, _Movie.Movie)(id);
+}
+},{"../../genreList":"js/genreList.js","../subcomponents/Genre":"js/components/subcomponents/Genre.js","../subcomponents/Movie":"js/components/subcomponents/Movie.js"}],"js/helpers/router/routie.js":[function(require,module,exports) {
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+/*!
+ * routie - a tiny hash router
+ * v0.3.2
+ * http://projects.jga.me/routie
+ * copyright Greg Allen 2016
+ * MIT License
+*/
+var Routie = function Routie(w, isModule) {
+  var routes = [];
+  var map = {};
+  var reference = "routie";
+  var oldReference = w[reference];
+
+  var Route = function Route(path, name) {
+    this.name = name;
+    this.path = path;
+    this.keys = [];
+    this.fns = [];
+    this.params = {};
+    this.regex = pathToRegexp(this.path, this.keys, false, false);
+  };
+
+  Route.prototype.addHandler = function (fn) {
+    this.fns.push(fn);
+  };
+
+  Route.prototype.removeHandler = function (fn) {
+    for (var i = 0, c = this.fns.length; i < c; i++) {
+      var f = this.fns[i];
+
+      if (fn == f) {
+        this.fns.splice(i, 1);
+        return;
+      }
+    }
+  };
+
+  Route.prototype.run = function (params) {
+    for (var i = 0, c = this.fns.length; i < c; i++) {
+      this.fns[i].apply(this, params);
+    }
+  };
+
+  Route.prototype.match = function (path, params) {
+    var m = this.regex.exec(path);
+    if (!m) return false;
+
+    for (var i = 1, len = m.length; i < len; ++i) {
+      var key = this.keys[i - 1];
+      var val = 'string' == typeof m[i] ? decodeURIComponent(m[i]) : m[i];
+
+      if (key) {
+        this.params[key.name] = val;
+      }
+
+      params.push(val);
+    }
+
+    return true;
+  };
+
+  Route.prototype.toURL = function (params) {
+    var path = this.path;
+
+    for (var param in params) {
+      path = path.replace('/:' + param, '/' + params[param]);
+    }
+
+    path = path.replace(/\/:.*\?/g, '/').replace(/\?/g, '');
+
+    if (path.indexOf(':') != -1) {
+      throw new Error('missing parameters for url: ' + path);
+    }
+
+    return path;
+  };
+
+  var pathToRegexp = function pathToRegexp(path, keys, sensitive, strict) {
+    if (path instanceof RegExp) return path;
+    if (path instanceof Array) path = '(' + path.join('|') + ')';
+    path = path.concat(strict ? '' : '/?').replace(/\/\(/g, '(?:/').replace(/\+/g, '__plus__').replace(/(\/)?(\.)?:(\w+)(?:(\(.*?\)))?(\?)?/g, function (_, slash, format, key, capture, optional) {
+      keys.push({
+        name: key,
+        optional: !!optional
+      });
+      slash = slash || '';
+      return '' + (optional ? '' : slash) + '(?:' + (optional ? slash : '') + (format || '') + (capture || format && '([^/.]+?)' || '([^/]+?)') + ')' + (optional || '');
+    }).replace(/([\/.])/g, '\\$1').replace(/__plus__/g, '(.+)').replace(/\*/g, '(.*)');
+    return new RegExp('^' + path + '$', sensitive ? '' : 'i');
+  };
+
+  var addHandler = function addHandler(path, fn) {
+    var s = path.split(' ');
+    var name = s.length == 2 ? s[0] : null;
+    path = s.length == 2 ? s[1] : s[0];
+
+    if (!map[path]) {
+      map[path] = new Route(path, name);
+      routes.push(map[path]);
+    }
+
+    map[path].addHandler(fn);
+  };
+
+  var routie = function routie(path, fn) {
+    if (typeof fn == 'function') {
+      addHandler(path, fn);
+      routie.reload();
+    } else if (_typeof(path) == 'object') {
+      for (var p in path) {
+        addHandler(p, path[p]);
+      }
+
+      routie.reload();
+    } else if (typeof fn === 'undefined') {
+      routie.navigate(path);
+    }
+  };
+
+  routie.lookup = function (name, obj) {
+    for (var i = 0, c = routes.length; i < c; i++) {
+      var route = routes[i];
+
+      if (route.name == name) {
+        return route.toURL(obj);
+      }
+    }
+  };
+
+  routie.remove = function (path, fn) {
+    var route = map[path];
+    if (!route) return;
+    route.removeHandler(fn);
+  };
+
+  routie.removeAll = function () {
+    map = {};
+    routes = [];
+  };
+
+  routie.navigate = function (path, options) {
+    options = options || {};
+    var silent = options.silent || false;
+
+    if (silent) {
+      removeListener();
+    }
+
+    setTimeout(function () {
+      window.location.hash = path;
+
+      if (silent) {
+        setTimeout(function () {
+          addListener();
+        }, 1);
+      }
+    }, 1);
+  };
+
+  routie.noConflict = function () {
+    w[reference] = oldReference;
+    return routie;
+  };
+
+  var getHash = function getHash() {
+    return window.location.hash.substring(1);
+  };
+
+  var checkRoute = function checkRoute(hash, route) {
+    var params = [];
+
+    if (route.match(hash, params)) {
+      route.run(params);
+      return true;
+    }
+
+    return false;
+  };
+
+  var hashChanged = routie.reload = function () {
+    var hash = getHash();
+
+    for (var i = 0, c = routes.length; i < c; i++) {
+      var route = routes[i];
+
+      if (checkRoute(hash, route)) {
+        return;
+      }
+    }
+  };
+
+  var addListener = function addListener() {
+    if (w.addEventListener) {
+      w.addEventListener('hashchange', hashChanged, false);
+    } else {
+      w.attachEvent('onhashchange', hashChanged);
+    }
+  };
+
+  var removeListener = function removeListener() {
+    if (w.removeEventListener) {
+      w.removeEventListener('hashchange', hashChanged);
+    } else {
+      w.detachEvent('onhashchange', hashChanged);
+    }
+  };
+
+  addListener();
+
+  if (isModule) {
+    return routie;
+  } else {
+    w[reference] = routie;
+  }
+};
+
+if (typeof module == 'undefined') {
+  Routie(window);
+} else {
+  module.exports = Routie(window, true);
+}
+},{}],"js/app.js":[function(require,module,exports) {
 "use strict";
 
 var _genreList = require("./genreList");
 
+var _views = require("./components/views/views");
+
 var _Genre = require("./components/subcomponents/Genre");
+
+var _routie = _interopRequireDefault(require("./helpers/router/routie"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Import helper Utills
 // Import subcomponents
+console.log(_routie.default);
+
 function init() {
   // genreList.forEach(obj => {
   //     Genre(`with_genres=${obj.id}`, obj.name)
   // })
-  (0, _Genre.Genre)("with_genres=".concat(27));
+  // Genre(`with_genres=${27}`, {
+  //     id:27,
+  //     name: "Horror"
+  // })
+  (0, _routie.default)({
+    'movie/:id': function movieId(id) {
+      console.log(id);
+      (0, _views.DetailSingle)(id);
+    },
+    '': function _() {
+      console.log("fwefwef");
+      (0, _views.Home)();
+    }
+  });
 }
 
 init();
-},{"./genreList":"js/genreList.js","./components/subcomponents/Genre":"js/components/subcomponents/Genre.js"}],"C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./genreList":"js/genreList.js","./components/views/views":"js/components/views/views.js","./components/subcomponents/Genre":"js/components/subcomponents/Genre.js","./helpers/router/routie":"js/helpers/router/routie.js"}],"C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -642,7 +945,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60331" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61210" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
