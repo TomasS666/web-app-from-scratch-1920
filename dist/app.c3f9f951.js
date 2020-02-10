@@ -183,6 +183,22 @@ var genreList = [{
   "name": "Western"
 }];
 exports.genreList = genreList;
+},{}],"js/helpers/cleanDom.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.cleanDom = cleanDom;
+
+function cleanDom(selector) {
+  // selector.removeChild(selector.firstChild)
+  if (selector.firstChild) {
+    selector.firstChild.remove();
+  } else {
+    return;
+  }
+}
 },{}],"js/helpers/isArgumentGiven.js":[function(require,module,exports) {
 "use strict";
 
@@ -594,9 +610,9 @@ function Genre(params, genreObj) {
   h2.textContent = genreObj.name;
   wrapper.setAttribute("class", "wrapper");
   jsonData.results.forEach(function (obj) {
-    var article = (0, _createAndAppend.createAndAppend)("article", wrapper);
+    var link = (0, _createAndAppend.createAndAppend)("a", wrapper);
+    var article = (0, _createAndAppend.createAndAppend)("article", link);
     var h3 = (0, _createAndAppend.createAndAppend)("h3", article, obj.title);
-    var link = (0, _createAndAppend.createAndAppend)("a", article, "Meer lezen");
     link.setAttribute("href", "#movie/".concat(obj.id));
     var image = (0, _createAndAppend.createAndAppend)("img", article);
     image.src = "https://image.tmdb.org/t/p/w342/".concat(obj.poster_path);
@@ -888,6 +904,8 @@ if (typeof module == 'undefined') {
 
 var _genreList = require("./genreList");
 
+var _cleanDom = require("./helpers/cleanDom");
+
 var _views = require("./components/views/views");
 
 var _Genre = require("./components/subcomponents/Genre");
@@ -910,18 +928,18 @@ function init() {
   // })
   (0, _routie.default)({
     'movie/:id': function movieId(id) {
-      console.log(id);
+      (0, _cleanDom.cleanDom)(document.querySelector("#content"));
       (0, _views.DetailSingle)(id);
     },
     '': function _() {
-      console.log("fwefwef");
+      (0, _cleanDom.cleanDom)(document.querySelector("#content"));
       (0, _views.Home)();
     }
   });
 }
 
 init();
-},{"./genreList":"js/genreList.js","./components/views/views":"js/components/views/views.js","./components/subcomponents/Genre":"js/components/subcomponents/Genre.js","./helpers/router/routie":"js/helpers/router/routie.js"}],"C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./genreList":"js/genreList.js","./helpers/cleanDom":"js/helpers/cleanDom.js","./components/views/views":"js/components/views/views.js","./components/subcomponents/Genre":"js/components/subcomponents/Genre.js","./helpers/router/routie":"js/helpers/router/routie.js"}],"C:/Users/stolp/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -949,7 +967,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63341" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49292" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

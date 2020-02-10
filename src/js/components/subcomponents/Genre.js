@@ -27,7 +27,12 @@ function Genre(params, genreObj){
 
             jsonData.results.forEach(obj => {
                 
-                const article = createAndAppend("article", wrapper);
+                const link = createAndAppend(
+                    "a",
+                    wrapper
+                )
+
+                const article = createAndAppend("article", link);
              
                 const h3 = createAndAppend(          
                     "h3",
@@ -35,11 +40,7 @@ function Genre(params, genreObj){
                     obj.title
                 );
 
-                const link = createAndAppend(
-                    "a",
-                    article,
-                    "Meer lezen"
-                )
+               
 
                 link.setAttribute("href", `#movie/${obj.id}`)
                 const image = createAndAppend(          

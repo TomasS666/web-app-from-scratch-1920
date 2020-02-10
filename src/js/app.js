@@ -3,6 +3,8 @@
 
 import { genreList } from "./genreList";
 
+import {cleanDom} from "./helpers/cleanDom"
+
 import {
     Home,
     DetailSingle
@@ -35,11 +37,13 @@ function init(){
 
     routie({
         'movie/:id': function(id) {
-            console.log(id)
+
+            cleanDom(document.querySelector("#content"))
             DetailSingle(id)
         },
         '': function() {
-            console.log("fwefwef")
+         
+            cleanDom(document.querySelector("#content"))
             Home()
         }
     });

@@ -1,5 +1,6 @@
 :root{
   --mobile: 25rem;
+  --white: #fff;
 }
 
 body{
@@ -12,10 +13,10 @@ body{
 .wrapper{
   display: grid;
   grid-template-columns: repeat(auto-fill, 20rem);
-  overflow-x: scroll;
   position: relative;
-  grid-gap: 4rem;
   padding: 5rem 0 0 0;
+  grid-gap: 2rem;
+  justify-content: center;
 }
 
 .wrapper article{
@@ -30,7 +31,13 @@ body{
 }
 
 .wrapper article h3{
-  padding: 0 1rem;
+  color: var(--white);
+  padding: 2rem;
+  margin: 0;
+}
+
+.wrapper a{
+  text-decoration: none;
 }
 
 .wrapper article img{
@@ -52,11 +59,17 @@ body{
   z-index: 999;
 } */
 
+footer{
+  text-align: center;
+}
+
 @media screen and (max-width: 67.875em){
   .wrapper{
     display: flex;
     flex-wrap: nowrap;
     scroll-snap-type: x mandatory;
+    overflow-x: scroll;
+    justify-content: unset;
   }
 
   .wrapper article{

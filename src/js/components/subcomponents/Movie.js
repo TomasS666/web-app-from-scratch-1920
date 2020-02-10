@@ -15,6 +15,7 @@ function Movie(id){
             const h1 = createAndAppend("h1", article);
 
             h1.textContent = movie.title;
+            
 
 
             
