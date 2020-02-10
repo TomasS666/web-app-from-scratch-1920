@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel src/index.html",
-    "build": "parcel src/index.html"
+    "build": "parcel build src/index.html --public-url ./"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/TomasS666/web-app-from-scratch-1920/issues"
   },
-  "homepage": "https://github.com/TomasS666/web-app-from-scratch-1920#readme"
+  "homepage": "https://github.com/TomasS666/web-app-from-scratch-1920#readme",
+  "devDependencies": {
+    "cssnano": "^4.1.10"
+  }
 }
