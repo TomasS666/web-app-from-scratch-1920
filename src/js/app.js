@@ -3,6 +3,7 @@
 
 import { genreList } from "./genreList";
 
+
 // Import subcomponents
 
 import {
@@ -12,27 +13,14 @@ import {
 
 function init(){
 
-    // const genreIds = [27, 28];
-
-    genreList.forEach(obj => {
-        Genre(`with_genres=${obj.id}`, obj.name)
-    })
-
-    // Genre(`with_genres=${27}`)
 
     // genreList.forEach(obj => {
-    //     Genre(`with_genres=${obj.id}`)
-
+    //     Genre(`with_genres=${obj.id}`, obj.name)
     // })
 
-    // getData("/genre/movie/list")
-    // .then(data => data.json())
+    Genre(`with_genres=${27}`)
 
-    
-    // genreIds.forEach(genreId => {
-    //     genre(`with_genres=${genreId}`)
-    // })
-    
+
     
 }
 
