@@ -7,7 +7,6 @@ function getData(route, params){
 function createAndAppend (node, targetNode, template,  position){
    
     try{
-        // isArgumentGiven([template, node, targetNode])
         console.log(isArgumentGiven([node]))
         if(isArgumentGiven([node])){
 

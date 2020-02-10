@@ -1,0 +1,23 @@
+{
+  "name": "WAFS",
+  "version": "1.0.0",
+  "description": "This product uses the TMDb API but is not endorsed or certified by TMDb.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TomasS666/web-app-from-scratch-1920.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TomasS666/web-app-from-scratch-1920/issues"
+  },
+  "homepage": "https://github.com/TomasS666/web-app-from-scratch-1920#readme"
+}
