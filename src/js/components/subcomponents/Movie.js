@@ -8,7 +8,19 @@ function Movie(id){
 
     getData(`movie/${id}`)
         .then(data => data.json())
-        .then(json => console.log(json))
+        .then(movie => {
+            console.log(movie)
+            const section = createAndAppend("section", document.querySelector("main"));
+            const article = createAndAppend("article", section)
+            const h1 = createAndAppend("h1", article);
+
+            h1.textContent = movie.title;
+
+
+            
+        })
+
+
 }
 
 
