@@ -35,8 +35,13 @@ function init(){
     searchValue.addEventListener("keydown", (e)=>{
         if(e.keyCode == 13){
             e.preventDefault();
-            searchBtn.href += `/${searchValue.value}`;
-            window.location = searchBtn.href;
+            // searchBtn.href = `/${searchValue.value}`;
+            
+            // window.location = searchBtn.href;
+
+            window.location =`#search/${searchValue.value}`
+
+
             // window.open(searchBtn.href)
         }
     })
@@ -51,6 +56,10 @@ function init(){
 
             cleanDom(document.querySelector("#content"))
             View.Home()
+        },
+        'search/:term': function(term){
+            console.log(term)
+            View.SearchResults(term)
         }
     });
 }

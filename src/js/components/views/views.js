@@ -1,4 +1,5 @@
 import { Subcomponent } from "../subcomponents/Subcomponent";
+import { getData } from "../../helpers/data/getData";
 
 
 function Home(){
@@ -6,12 +7,11 @@ function Home(){
 //        Genre(`with_genres=${obj.id}`, obj.name)
 //    })
 // console.log(Genre)
-Subcomponent.Genre(`with_genres=${27}`, {
-    id:27,
-    name: "Horror"
-})
+   Subcomponent.Genre(`with_genres=${27}`, {
+      id:27,
+      name: "Horror"
+   })
 
-   return;
 }
 
 
@@ -19,9 +19,16 @@ function DetailSingle(id){
    Subcomponent.Movie(id)
 }
 
+function SearchResults(term){
+   getData(`search/movie`, `query=${ term.toLowerCase() }`)
+      .then(res => res.json())
+      .then(json => console.log(json))
+}
+
 const View = {
    Home: Home,
-   DetailSingle: DetailSingle
+   DetailSingle: DetailSingle,
+   SearchResults: SearchResults
 }
 
 export { View }

@@ -58,6 +58,10 @@ function Genre(params, genreObj) {
 
         const article = createAndAppend("article", link);
 
+        article.addEventListener("mouseover", (e)=>{
+            console.log(e.target)
+        })
+
         const h3 = createAndAppend(
             "h3",
             article,
