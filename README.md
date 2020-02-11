@@ -25,6 +25,9 @@ To get a list of movies
 
 ## References
 
+## Acknowledgements
+For creating my own templating engine I choose createElement() and append() over insertAdjacentHTML first because with innerAdjacentHTML you have to retrieve the DOM element again before
+
 ## License
 
 [MIT License Copyright (c) 2020 Tomas S](https://github.com/TomasS666/web-app-from-scratch-1920/blob/master/LICENSE)
