@@ -1,6 +1,4 @@
-import genreList from "../../genreList";
-import { Genre } from "../subcomponents/Genre";
-import { Movie } from "../subcomponents/Movie";
+import { Subcomponent } from "../subcomponents/Subcomponent";
 
 
 function Home(){
@@ -8,7 +6,7 @@ function Home(){
 //        Genre(`with_genres=${obj.id}`, obj.name)
 //    })
 // console.log(Genre)
-Genre(`with_genres=${27}`, {
+Subcomponent.Genre(`with_genres=${27}`, {
     id:27,
     name: "Horror"
 })
@@ -18,7 +16,12 @@ Genre(`with_genres=${27}`, {
 
 
 function DetailSingle(id){
-   Movie(id)
+   Subcomponent.Movie(id)
 }
 
-export { Home, DetailSingle }
+const View = {
+   Home: Home,
+   DetailSingle: DetailSingle
+}
+
+export { View }

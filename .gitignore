@@ -1,1 +1,5 @@
 notes.md
+node_modules
+.history
+.cache
+dist

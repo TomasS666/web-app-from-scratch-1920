@@ -1,27 +1,17 @@
 // Import helper Utills
 
-
-import { genreList } from "./genreList";
-
-import {cleanDom} from "./helpers/cleanDom"
+import { cleanDom } from "./helpers/cleanDom"
 
 import {
-    Home,
-    DetailSingle
-} from "./components/views/views";
+    View
+} from "./components/views/Views";
 // Import subcomponents
 
-import {
-    Genre
-} from "./components/subcomponents/Genre"
 
 import 
     routie
  from "./helpers/router/routie";
 
-
-
-console.log(routie)
 
 function init(){
 
@@ -38,8 +28,10 @@ function init(){
     const searchBtn = document.querySelector('a[href="#search"]');
     const searchValue = document.querySelector("input[type=text]")
 
-   
-
+    /* 
+        When a keydown on the search input is fired and it's enter
+        fire a function which redirects to the #search/{movie search term}
+    */
     searchValue.addEventListener("keydown", (e)=>{
         if(e.keyCode == 13){
             e.preventDefault();
@@ -53,17 +45,14 @@ function init(){
         'movie/:id': function(id) {
 
             cleanDom(document.querySelector("#content"))
-            DetailSingle(id)
+            View.DetailSingle(id)
         },
         '': function() {
-         
+
             cleanDom(document.querySelector("#content"))
-            Home()
+            View.Home()
         }
     });
-
-
-    
 }
 
 init()
