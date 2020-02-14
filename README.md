@@ -11,6 +11,10 @@ This product uses the TMDb API but is not endorsed or certified by TMDb.
 ## How to install
 
 ## Actor diagram
+
+
+
+
 App init()
     Routie()
   
