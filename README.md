@@ -10,11 +10,6 @@ This product uses the TMDb API but is not endorsed or certified by TMDb.
 
 ## How to install
 
-## Actor diagram
-
-![actor-diagram](https://user-images.githubusercontent.com/49723502/74514450-de89dc00-4f0c-11ea-88cb-9e92d2cf906b.png)
-
-
 ## Interaction diagram
 
 ## Concept
@@ -23,7 +18,8 @@ It would have been nice to also offer them information about movies which are in
 
 
 ## Actor diagram
-(Might be updated, app still under construction)
+![actor-diagram](https://user-images.githubusercontent.com/49723502/74514450-de89dc00-4f0c-11ea-88cb-9e92d2cf906b.png)
+
 ## Interaction diagram
 
 ## API TheMovieDB
