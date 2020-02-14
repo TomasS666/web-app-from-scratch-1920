@@ -12,9 +12,14 @@ import
     routie
  from "./helpers/router/routie";
 
+ import {
+     Store
+ } from "./helpers/storeData";
+
 
 function init(){
 
+    Store.set("title", "Van Helsing")
 
     // genreList.forEach(obj => {
     //     Genre(`with_genres=${obj.id}`, obj.name)
