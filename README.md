@@ -7,8 +7,19 @@ This product uses the TMDb API but is not endorsed or certified by TMDb.
 ![WAFS - Movies](https://user-images.githubusercontent.com/49723502/74514641-4b9d7180-4f0d-11ea-894b-5f32e328dcfc.png)
 
 # Description
+This project contains a Webapp made with Vanilla Javascript with the exception of a micro library which manages the hashrouting. The learning goal here is to make the webapp myself without the use of any frameworks and to challenge myself to build functionality I haven't worked with yet.
 
 ## How to install
+This webapp is completely client-side. But for bundling and transpiling ES6 code to ES5. I use parcel as a bundler, but feel free to use another bundler instead.
+
+To install this webapp, you only have to clone this repository by entering the following command in your terminal:
+```git clone https://github.com/TomasS666/web-app-from-scratch-1920.git```
+
+or this command if you want to clone the repo into your current folder:
+```git clone https://github.com/TomasS666/web-app-from-scratch-1920.git ./```
+
+or you can download the zip file or something similar by clicking on the green button on the top-right position of every repo.
+
 
 ## Interaction diagram
 
