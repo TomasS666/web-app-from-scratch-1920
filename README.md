@@ -13,9 +13,11 @@ This project contains a Webapp made with Vanilla Javascript with the exception o
 This webapp is completely client-side. But for bundling and transpiling ES6 code to ES5. I use parcel as a bundler, but feel free to use another bundler instead.
 
 To install this webapp, you only have to clone this repository by entering the following command in your terminal:
+
 ```git clone https://github.com/TomasS666/web-app-from-scratch-1920.git```
 
 or this command if you want to clone the repo into your current folder:
+
 ```git clone https://github.com/TomasS666/web-app-from-scratch-1920.git ./```
 
 or you can download the zip file or something similar by clicking on the green button on the top-right position of every repo.
