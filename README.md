@@ -26,7 +26,8 @@ To get a list of movies
 ## References
 
 ## Acknowledgements
-For creating my own templating engine I choose createElement() and append() over insertAdjacentHTML first because with innerAdjacentHTML you have to retrieve the DOM element again before
+For creating my own templating engine I choose createElement() and append() over insertAdjacentHTML first because with innerAdjacentHTML you have to retrieve the DOM element again before you can add eventlisteners. 
+But since the template became bigger and I realized of course I don't have to put events on everything I started using a mix of both innerAdjacdntHTML with template literals and createAndAppend().
 
 ## License
 
