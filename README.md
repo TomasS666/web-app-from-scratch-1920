@@ -4,7 +4,7 @@ This product uses the TMDb API but is not endorsed or certified by TMDb.
 
 ### Demo: https://tomass666.github.io/web-app-from-scratch-1920/
 
-## 
+![WAFS - Movies](https://user-images.githubusercontent.com/49723502/74514641-4b9d7180-4f0d-11ea-894b-5f32e328dcfc.png)
 
 # Description
 
@@ -12,30 +12,8 @@ This product uses the TMDb API but is not endorsed or certified by TMDb.
 
 ## Actor diagram
 
+![actor-diagram](https://user-images.githubusercontent.com/49723502/74514450-de89dc00-4f0c-11ea-88cb-9e92d2cf906b.png)
 
-
-
-App init()
-    Routie()
-  
-View
-View.home()
-View.singleMovie()
-View.searchresults() 
-
-Data   
-getData()
-
-
-Subcomponent
-Subcomponent.genre()
-Subcomponent.movie()
-
-Helpers
-Helper.createAndAppend()
-Storage.get()
-Storage.set()
-Storage.check()
 
 ## Interaction diagram
 
@@ -58,9 +36,12 @@ To get a list of movies of a certain genre:
 
 ### Used data
 I'm not using 
+
 ### Guide
+
 ### Limit
 The rate limit has been removed. Yet after some time I retrieved the data of a genre and I saved it locally temporarily so I wouldn't overload the server of such a nice company. 
+
 ## Features
 Searching movies
 Overview page of movie genres
