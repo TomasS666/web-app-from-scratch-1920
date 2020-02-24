@@ -19,8 +19,9 @@ import
 
 function init(){
 
-    Store.set("title", "Van Helsing")
+    // Store.set("title", "Van Helsing")
 
+    
     // genreList.forEach(obj => {
     //     Genre(`with_genres=${obj.id}`, obj.name)
     // })

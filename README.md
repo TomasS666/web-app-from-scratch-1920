@@ -79,4 +79,3 @@ But since the template became bigger and I realized of course I don't have to pu
 ## License
 
 [MIT License Copyright (c) 2020 Tomas S](https://github.com/TomasS666/web-app-from-scratch-1920/blob/master/LICENSE)
-

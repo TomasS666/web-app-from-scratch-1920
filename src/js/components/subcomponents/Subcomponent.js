@@ -44,16 +44,19 @@ function Genre(params, genreObj) {
     //         console.log(jsonData)
     const jsonData = fakeData;
 
+    Transparency.render(section, data);
+
     // const section = createAndAppend("section", document.querySelector("main"));
     const section = createAndAppend("section");
     const h2 = createAndAppend("h2", section);
     const wrapper = createAndAppend("div", section)
+    
 
     section.setAttribute("data-genre-name", genreObj.name)
     h2.textContent = genreObj.name;
     wrapper.setAttribute("class", "wrapper")
     
-    Store.set("savedData", JSON.stringify(jsonData.results))
+    // Store.set("savedData", JSON.stringify(jsonData.results))
 
     jsonData.results.forEach(obj => {
 
@@ -68,7 +71,7 @@ function Genre(params, genreObj) {
             <a href="#movie/${obj.id}">
                 <article>
                     <h3>${obj.title}</h3>
-                    <img src="${obj.poster_path}" alt="${obj.title}">
+                    <img src="https://image.tmdb.org/t/p/w342/${obj.poster_path}" alt="${obj.title}">
                 </article>
             </a>
         `;
