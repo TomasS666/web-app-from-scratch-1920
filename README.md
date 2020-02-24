@@ -67,8 +67,15 @@ Single page detail page
 ## References
 
 ## Acknowledgements
+
+## Proces
+### CreateAndAppend
 For creating my own templating engine I choose createElement() and append() over insertAdjacentHTML first because with innerAdjacentHTML you have to retrieve the DOM element again before you can add eventlisteners. 
 But since the template became bigger and I realized of course I don't have to put events on everything I started using a mix of both innerAdjacdntHTML with template literals and createAndAppend().
+
+But, as you can imagine, my ```createAndAppend()``` can look a little overwhelming and might make it less readable. Although some disagree and think it's quite nice in my use case.
+
+This approach of using both my own ```createAndAppend()``` and template literals for static components made me think a lot. Maybe too much. I wanted a better way to render my components client-side. There is a way, and [Joost](https://github.com/joostf) introduced [Webcomponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) to me. This was the thing I wanted to learn all along, but I've been coping with it too much. So right now I'm staying with my original approach and I hope I can introduce this advanced approach in my next project. It's a hard lesson to learn, but I've learned it anyway and that's my takeaway from this course.
 
 ## License
 
