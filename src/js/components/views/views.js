@@ -2,21 +2,26 @@ import { Subcomponent } from "../subcomponents/Subcomponent";
 import { getData } from "../../helpers/data/getData";
 
 
-function Home(){
+async function Home(){
 //     genreList.forEach(obj => {
 //        Genre(`with_genres=${obj.id}`, obj.name)
 //    })
 // console.log(Genre)
-   Subcomponent.Genre(`with_genres=${27}`, {
+   const test = Subcomponent.Genre(`with_genres=${27}`, {
       id:27,
       name: "Horror"
    })
+   
+
+   
+   console.log(test)
+   return test;
 
 }
 
 
 function DetailSingle(id){
-   Subcomponent.Movie(id)
+   return Subcomponent.Movie(id)
 }
 
 function SearchResults(term){

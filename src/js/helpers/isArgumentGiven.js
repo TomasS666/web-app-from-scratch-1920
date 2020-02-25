@@ -1,23 +1,24 @@
 function isArgumentGiven(args){
-
-    if(Array.isArray(args) && args.length){
-        // If the given arguments are given in an array
-        // Check for every argument if it's not undefined
-    
-        const checkIfUndefined = args.every(argument => {
-            return argument !== undefined
-        })
-
-        if(checkIfUndefined){
-            return true;
-        }else{
-            throw Error("One or more given values are undefined")
+    if(isArray(args)){
+        if(!isArrayEmpty(args)){
+            return !isUndefined(args) ? true : false;
         }
-        
-    }else{
-        throw Error("Given value isn't an array or is an empty array")
     }
-    
+}
+
+function isArray(array){
+    return Array.isArray(array) ? true : false;
+}
+
+function isArrayEmpty(array){
+    return array.length ? false : true;
+}
+
+
+function isUndefined(args){
+    return args.every(argument => {
+        return argument === undefined
+    })
 }
 
 

@@ -1,27 +1,17 @@
-// Import helper Utills
-
-import { cleanDom } from "./helpers/cleanDom"
+import {
+    Store
+} from "./helpers/storeData";
 
 import {
-    View
-} from "./components/views/Views";
-// Import subcomponents
+    Router
+} from "./routing/Router"
 
+function init() {
 
-import 
-    routie
- from "./helpers/router/routie";
-
- import {
-     Store
- } from "./helpers/storeData";
-
-
-function init(){
-
+    Router.handler()
     // Store.set("title", "Van Helsing")
 
-    
+
     // genreList.forEach(obj => {
     //     Genre(`with_genres=${obj.id}`, obj.name)
     // })
@@ -38,36 +28,22 @@ function init(){
         When a keydown on the search input is fired and it's enter
         fire a function which redirects to the #search/{movie search term}
     */
-    searchValue.addEventListener("keydown", (e)=>{
-        if(e.keyCode == 13){
+    searchValue.addEventListener("keydown", (e) => {
+        if (e.keyCode == 13) {
             e.preventDefault();
             // searchBtn.href = `/${searchValue.value}`;
-            
+
             // window.location = searchBtn.href;
 
-            window.location =`#search/${searchValue.value}`
+            routie(`#search/${searchValue.value}`)
 
 
             // window.open(searchBtn.href)
         }
     })
 
-    routie({
-        'movie/:id': function(id) {
 
-            cleanDom(document.querySelector("#content"))
-            View.DetailSingle(id)
-        },
-        '': function() {
 
-            cleanDom(document.querySelector("#content"))
-            View.Home()
-        },
-        'search/:term': function(term){
-            console.log(term)
-            View.SearchResults(term)
-        }
-    });
 }
 
 init()

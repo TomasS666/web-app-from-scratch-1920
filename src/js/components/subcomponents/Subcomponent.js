@@ -14,19 +14,35 @@ import {
     Store
 } from "../../helpers/storeData";
 
+
+import { cleanObjects } from '../../helpers/data/cleaning'
+
 function Movie(id) {
     console.log(id + "fwefe")
 
-    getData(`movie/${id}`)
+    return getData(`movie/${id}`)
         .then(data => data.json())
         .then(movie => {
+           
             console.log(movie)
 
-            const section = createAndAppend("section", document.querySelector("main"));
-            const article = createAndAppend("article", section)
-            const h1 = createAndAppend("h1", article);
+            const section = createAndAppend("section");
+            // const article = createAndAppend("article", section)
 
-            h1.textContent = movie.title;
+          
+
+            const article = `
+            <a href="#movie/${movie.id}">
+                <article>
+                    <h1>${movie.title}</h1>
+                    <img src="https://image.tmdb.org/t/p/w342/${movie.poster_path}" alt="${movie.title}">
+                </article>
+            </a>
+        `;
+
+        section.insertAdjacentHTML("afterbegin", article)
+
+            return section;
 
         })
 
@@ -34,17 +50,18 @@ function Movie(id) {
 
 
 
-console.log(fakeData)
+// console.log(fakeData)
 
 function Genre(params, genreObj) {
     console.log("test")
-    // getData("discover/movie", params)
-    //     .then(data => data.json())
-    //     .then(jsonData => {
-    //         console.log(jsonData)
-    const jsonData = fakeData;
-
-    Transparency.render(section, data);
+    
+   return( getData("discover/movie", params)
+        .then(data => data.json())
+        .then(json => cleanObjects(json.results, ["id", "title", "poster_path"]))
+        .then(jsonData => {
+            
+        console.log(jsonData)
+    // const jsonData = fakeData;
 
     // const section = createAndAppend("section", document.querySelector("main"));
     const section = createAndAppend("section");
@@ -58,7 +75,7 @@ function Genre(params, genreObj) {
     
     // Store.set("savedData", JSON.stringify(jsonData.results))
 
-    jsonData.results.forEach(obj => {
+jsonData.map(obj => {
 
         // const link = createAndAppend(
         //     "a",
@@ -100,10 +117,13 @@ function Genre(params, genreObj) {
 
 
     })
-    section.append(wrapper)
+    console.log(section)
+    return section;
+    // section.append(wrapper)
 
-    document.querySelector("main").append(section)
-    // })
+    // document.querySelector("main").append(section)
+    document.querySelector('[data-element="loading-popup"]').classList.remove("loading")
+    }))
 }
 
 

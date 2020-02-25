@@ -1,4 +1,4 @@
-import {isArgumentGiven} from "../helpers/isArgumentGiven";
+import { isArgumentGiven } from "../helpers/isArgumentGiven";
 
 function createAndAppend (node, targetNode, template,  position){
    

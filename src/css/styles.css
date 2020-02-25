@@ -19,6 +19,7 @@ header div{
   align-items: unset;
   justify-content: center;
   width: 100%;
+  margin: 5rem 0;
 }
 
 header div input{
@@ -34,7 +35,7 @@ header div a{
 }
 
 header div input:focus{
-  width: 100%;
+  width: 80%;
   transition: .3s;
 }
 
@@ -101,6 +102,19 @@ header div a{
 footer{
   text-align: center;
 }
+
+[data-element="loading-popup"]{
+  display: none;
+}
+
+[data-element="loading-popup"].loading{
+  width: 100vw;
+  height: 100vh;
+  background-color: grey;
+  display: block;
+}
+
+
 
 @media screen and (max-width: 67.875em){
   .wrapper{

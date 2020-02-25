@@ -24,5 +24,8 @@
   "homepage": "https://github.com/TomasS666/web-app-from-scratch-1920#readme",
   "devDependencies": {
     "cssnano": "^4.1.10"
-  }
+  },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ]
 }
