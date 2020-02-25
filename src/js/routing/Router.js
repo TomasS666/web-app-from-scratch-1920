@@ -20,27 +20,22 @@ function handler(){
         'movie/:id': function(id) {
     
             cleanDom(main)
-            View.DetailSingle(id)
-    
-    
+            
             View.DetailSingle(id)
                 .then(html => {
                     Render(html, main)
-                    console.log(html)
                 })
         },
         '': function() {
             // document.querySelector('[data-element="loading-popup"]').classList.add("loading")
             cleanDom(main)
 
-            View.Home().then(html => {
-                console.log(html, 'fwef')
+            View.Home()
+            .then(html => {
                 Render(html, main)
-                
             })
         },
         'search/:term': function(term){
-            console.log(term)
             View.SearchResults(term)
         }
     });

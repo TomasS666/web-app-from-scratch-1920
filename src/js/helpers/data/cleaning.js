@@ -10,15 +10,4 @@ function cleanObjects(array, fields){
     })
 }
 
-
-const movies = [{
-    id: 12,
-    name: "Tomas",
-    age: 23
-}]
-
-console.log(cleanObjects(movies, ['name', 'age']))
-
-
-
 export {cleanObjects}

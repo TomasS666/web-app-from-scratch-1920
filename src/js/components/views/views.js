@@ -1,21 +1,33 @@
 import { Subcomponent } from "../subcomponents/Subcomponent";
 import { getData } from "../../helpers/data/getData";
-
+import { genreList } from "../../genreList"
 
 async function Home(){
 //     genreList.forEach(obj => {
 //        Genre(`with_genres=${obj.id}`, obj.name)
 //    })
 // console.log(Genre)
-   const test = Subcomponent.Genre(`with_genres=${27}`, {
-      id:27,
-      name: "Horror"
-   })
+
+   const genreIds = genreList.map(obj => obj.id)
+
+   console.log(genreIds)
    
+   const idUrl = genreIds.reduce((previous, next)=>{
+      // console.log(previous)
+      return `${previous}%2${next}`
+   })
+
+   console.log(idUrl)
 
    
-   console.log(test)
-   return test;
+   return (
+      genreList.map(genre =>{
+         return (
+            Subcomponent.Genre(genre.id, genre)
+         )
+      })
+      
+   )
 
 }
 
