@@ -44,7 +44,9 @@ To get a list of movies of a certain genre:
 ```
 
 ### Used data
-I'm not using 
+I'm fetching movies by genre. Within the render of the genres with movies I apply a ```#movie/{id}``` to anchors around the movie wrapper. When the user clicks on a movie, my routie takes the id param and uses it to fetch the movie data itself. With that data I render a detail-page with it's own sub components.
+
+## Data manipulation
 
 ### Guide
 
@@ -63,6 +65,9 @@ Single page detail page
 * Better flow of data
 * Less cascading functional code, more human readable code ( export functions in a covering parent object )
 * More readable way for creating components.
+
+## Future features
+I've gotten in to the shadow dom way too late, but better late than never. I was very eager to apply this system with actual webcomponents into my web-app, but due time I have to keep my hands of it and finish the foundation I've been working on.
 
 ## References
 
