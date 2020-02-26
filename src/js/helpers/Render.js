@@ -1,4 +1,12 @@
+import { isArray } from "../helpers/isArgumentGiven"
+
 function Render(html, target){
-    target.append(html)
+    if(isArray(html)){
+        html.forEach(html=>{
+            target.append(html)
+        })
+    }else{
+        target.append(html)
+    }
 }
 export { Render }

@@ -23,4 +23,4 @@ function isUndefined(args){
 
 
 
-export { isArgumentGiven }
+export { isArgumentGiven, isArray }

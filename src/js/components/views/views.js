@@ -8,26 +8,26 @@ async function Home(){
 //    })
 // console.log(Genre)
 
-   const genreIds = genreList.map(obj => obj.id)
+   // const genreIds = genreList.map(obj => obj.id)
 
-   console.log(genreIds)
+   // console.log(genreIds)
    
-   const idUrl = genreIds.reduce((previous, next)=>{
-      // console.log(previous)
-      return `${previous}%2${next}`
-   })
+   // const idUrl = genreIds.reduce((previous, next)=>{
+   //    // console.log(previous)
+   //    return `${previous}%2${next}`
+   // })
 
-   console.log(idUrl)
+   // console.log(idUrl)
 
    
-   return (
+   return Promise.all((
       genreList.map(genre =>{
-         return (
-            Subcomponent.Genre(genre.id, genre)
-         )
+         console.log(genre.id)
+         return Subcomponent.Genre(genre.id, genre)
+         
       })
       
-   )
+   ))
 
 }
 

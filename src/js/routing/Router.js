@@ -23,6 +23,7 @@ function handler(){
             
             View.DetailSingle(id)
                 .then(html => {
+                   
                     Render(html, main)
                 })
         },
@@ -30,8 +31,14 @@ function handler(){
             // document.querySelector('[data-element="loading-popup"]').classList.add("loading")
             cleanDom(main)
 
+            // console.log(View.Home(), 'test?')
+            console.log("tetetet")
             View.Home()
             .then(html => {
+                console.log(html)
+                // .reduce((previous, next)=> {
+                //     return previous + next;
+                //  }))
                 Render(html, main)
             })
         },

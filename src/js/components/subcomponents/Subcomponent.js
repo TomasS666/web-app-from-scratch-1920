@@ -53,20 +53,45 @@ function Movie(id) {
 
 }
 
+const errorMapping = new Map();
 
+
+
+errorMapping.set("TypeError: Failed to fetch", "Sorry! Something went wrong with your network connection.")
+
+// const errorMapping = [
+//     "TypeError: Failed to fetch":connectionFail
+// ]
+
+// const ErrMsg = {
+//     connectionFail: "Sorry! Something went wrong with your network connection."
+// }
 
 // console.log(fakeData)
 
 function Genre(params, genreObj) {
-    console.log("test")
+    console.log(params)
 
-    return (getData("discover/movie", params)
+    return (getData("discover/movie", `with_genres=${params}`)
+        .then(response => {
+            
+            if(!response.ok){
+                console.log('fwfwefwefwef')
+                throw Error(response.statusText)
+            }else{
+                return response;
+            }
+            
+        })
         .then(data => data.json())
         // .then(data => {
         //     console.log(params)
         //     return data;
         // })
-        .then(json => cleanObjects(json.results, ["id", "title", "poster_path", "vote_average"]))
+        .then(json => { 
+            console.log(json)
+            return cleanObjects(json.results, ["id", "title", "poster_path", "vote_average"])
+        })
         .then(jsonData => {
 
             console.log(jsonData)
@@ -84,8 +109,7 @@ function Genre(params, genreObj) {
 
             // Store.set("savedData", JSON.stringify(jsonData.results))
 
-            jsonData.map(obj => {
-
+            jsonData.map((obj, i) => {
                 const article = `
             <a href="#movie/${obj.id}">
                 <article>
@@ -96,14 +120,22 @@ function Genre(params, genreObj) {
             </a>
         `;
 
-                wrapper.insertAdjacentHTML("afterbegin", article)
+                // if(i <= 4){
+                    // console.log(i)
+                    wrapper.insertAdjacentHTML("afterbegin", article)
+                // }
 
              
             })
-            console.log(section)
+            // console.log(section)
             document.querySelector('[data-element="loading-popup"]').classList.remove("loading")
             return section;
         }))
+        // .catch(err => {
+        //     console.log(err)
+        //     console.log(errorMapping.get(err))
+        //     return errorMapping.get(err)
+        // })
 }
 
 
