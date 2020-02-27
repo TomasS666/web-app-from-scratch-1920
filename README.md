@@ -72,6 +72,9 @@ I've gotten in to the shadow dom way too late, but better late than never. I was
 ## References
 
 ## Acknowledgements
+Nick
+Ramon 
+Kris
 
 ## Proces
 ### CreateAndAppend
