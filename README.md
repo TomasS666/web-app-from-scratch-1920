@@ -23,8 +23,6 @@ or this command if you want to clone the repo into your current folder:
 or you can download the zip file or something similar by clicking on the green button on the top-right position of every repo.
 
 
-## Interaction diagram
-
 ## Concept
 The concept of this website is quite straightforward, the idea is to enable the user to browse and explore information about movies. 
 It would have been nice to also offer them information about movies which are in theaters now, but that's a nice addition when there's time left over. 
