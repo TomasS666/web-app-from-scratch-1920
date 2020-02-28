@@ -32,7 +32,7 @@ It would have been nice to also offer them information about movies which are in
 ![actor-diagram](https://github.com/TomasS666/web-app-from-scratch-1920/blob/master/images-project/Actor.diagram.png)
 
 ## Interaction diagram
-![Interaction diagram](https://github.com/TomasS666/web-app-from-scratch-1920/blob/master/images-project/Actor.diagram.png)
+![Interaction diagram](https://github.com/TomasS666/web-app-from-scratch-1920/blob/master/images-project/Interaction-diagram.png)
 ## API TheMovieDB
 I'm fetching data on the following endpoints:
 
