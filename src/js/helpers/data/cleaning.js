@@ -10,6 +10,7 @@
     Kris helped me out with the last pieces of the puzzle. I return an array with objects. Within the map I iterate over
     the objects. Within the loop I take the fields array with the desired keys and iterate over them where
 
+    Credits to: Guido Bouman and Kris Kuiper
 */
 
 function cleanObjects(array, fields){
@@ -17,6 +18,7 @@ function cleanObjects(array, fields){
         
         // www.github.com/kriskuiper
         return fields.reduce((tuples, field) => {
+           
             tuples[field] = obj[field]
 
             return tuples

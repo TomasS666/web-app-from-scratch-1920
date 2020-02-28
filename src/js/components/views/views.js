@@ -2,31 +2,16 @@ import { Subcomponent } from "../subcomponents/Subcomponent";
 import { getData } from "../../helpers/data/getData";
 import { genreList } from "../../genreList"
 
-async function Home(){
-//     genreList.forEach(obj => {
-//        Genre(`with_genres=${obj.id}`, obj.name)
-//    })
-// console.log(Genre)
+function Home(){
 
-   // const genreIds = genreList.map(obj => obj.id)
-
-   // console.log(genreIds)
-   
-   // const idUrl = genreIds.reduce((previous, next)=>{
-   //    // console.log(previous)
-   //    return `${previous}%2${next}`
-   // })
-
-   // console.log(idUrl)
-
-   
+/* 
+=====  Map over the subcomponent Genre which returns promises in an array and returns 
+=====  a mayor promise back up
+*/
    return Promise.all((
       genreList.map(genre =>{
-         console.log(genre.id)
          return Subcomponent.Genre(genre.id, genre)
-         
       })
-      
    ))
 
 }

@@ -18,7 +18,7 @@ const main = document.querySelector("#content");
 function handler(){
     routie({
         'movie/:id': function(id) {
-    
+            // document.querySelector('[data-element="loading-popup"]').classList.add("loading")
             cleanDom(main)
             
             View.DetailSingle(id)
@@ -31,14 +31,11 @@ function handler(){
             // document.querySelector('[data-element="loading-popup"]').classList.add("loading")
             cleanDom(main)
 
-            // console.log(View.Home(), 'test?')
+    
             console.log("tetetet")
             View.Home()
             .then(html => {
                 console.log(html)
-                // .reduce((previous, next)=> {
-                //     return previous + next;
-                //  }))
                 Render(html, main)
             })
         },

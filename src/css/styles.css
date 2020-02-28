@@ -113,6 +113,11 @@ header div a{
   transition: all .3s;
 }
 
+.detail-section article figure{
+  display: flex;
+  place-content: center;
+}
+
 footer{
   text-align: center;
 }
@@ -125,7 +130,10 @@ footer{
   width: 100vw;
   height: 100vh;
   background-color: grey;
+  position: fixed;
+  top: 0;
   display: block;
+  left: 0;
 }
 
 

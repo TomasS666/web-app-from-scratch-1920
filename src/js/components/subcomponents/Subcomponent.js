@@ -28,19 +28,32 @@ function Movie(id) {
 
     return getData(`movie/${id}`)
         .then(data => data.json())
+        .then(json => {
+            // console.log(json)
+            // return cleanObjects(json.results, ["id", "title", "poster_path", "vote_average"])
+            return json;
+        })
         .then(movie => {
 
             console.log(movie)
 
             const section = createAndAppend("section");
+            section.setAttribute("class", "detail-section")
             // const article = createAndAppend("article", section)
 
             const article = `
 
                 <article>
-                    <h1>${movie.title}</h1>
-                    <img src="https://image.tmdb.org/t/p/w342/${movie.poster_path}" alt="${movie.title}">
-                    <div>Genres: ${movie.genres.map(obj => obj.name).join(", ")} </div>
+                    <header>
+                        <h1>${movie.title}</h1>
+                    </header>
+                    <figure>
+                        <img src="https://image.tmdb.org/t/p/w342/${movie.poster_path}" alt="${movie.title}">
+                        <figcaption>
+                            <div>Genres: ${movie.genres.map(obj => obj.name).join(", ")} </div>
+                            <div>${movie.overview}</div>
+                        </figcaption>
+                    </figure>
                 </article>
             
         `;
@@ -53,11 +66,11 @@ function Movie(id) {
 
 }
 
-const errorMapping = new Map();
+// const errorMapping = new Map();
 
 
 
-errorMapping.set("TypeError: Failed to fetch", "Sorry! Something went wrong with your network connection.")
+// errorMapping.set("TypeError: Failed to fetch", "Sorry! Something went wrong with your network connection.")
 
 // const errorMapping = [
 //     "TypeError: Failed to fetch":connectionFail
@@ -73,44 +86,35 @@ function Genre(params, genreObj) {
     console.log(params)
 
     return (getData("discover/movie", `with_genres=${params}`)
-        .then(response => {
-            
-            if(!response.ok){
-                console.log('fwfwefwefwef')
-                throw Error(response.statusText)
-            }else{
-                return response;
-            }
-            
-        })
-        .then(data => data.json())
-        // .then(data => {
-        //     console.log(params)
-        //     return data;
-        // })
-        .then(json => { 
-            console.log(json)
-            return cleanObjects(json.results, ["id", "title", "poster_path", "vote_average"])
-        })
-        .then(jsonData => {
+            .then(response => {
+                console.log(response.status)
 
-            console.log(jsonData)
-            // const jsonData = fakeData;
+                if (!response.ok) {
+                    throw Error(response.statusText)
+                } else {
+                    return response;
+                }
+            })
+            .then(data => data.json())
+            .then(json => {
+                return cleanObjects(json.results, ["id", "title", "poster_path", "vote_average"])
+            })
+            .then(jsonData => {
 
-            // const section = createAndAppend("section", document.querySelector("main"));
-            const section = createAndAppend("section");
-            const h2 = createAndAppend("h2", section);
-            const wrapper = createAndAppend("div", section)
+                console.log(jsonData)
 
+                const section = createAndAppend("section");
+                const h2 = createAndAppend("h2", section);
+                const wrapper = createAndAppend("div", section)
 
-            section.setAttribute("data-genre-name", genreObj.name)
-            h2.textContent = genreObj.name;
-            wrapper.setAttribute("class", "wrapper")
+                section.setAttribute("data-genre-name", genreObj.name)
+                h2.textContent = genreObj.name;
+                wrapper.setAttribute("class", "wrapper")
 
-            // Store.set("savedData", JSON.stringify(jsonData.results))
+                // Store.set("savedData", JSON.stringify(jsonData.results))
 
-            jsonData.map((obj, i) => {
-                const article = `
+                jsonData.map((obj, i) => {
+                    const article = `
             <a href="#movie/${obj.id}">
                 <article>
                     <h3>${obj.title}</h3>
@@ -120,22 +124,21 @@ function Genre(params, genreObj) {
             </a>
         `;
 
-                // if(i <= 4){
+                    // if(i <= 4){
                     // console.log(i)
                     wrapper.insertAdjacentHTML("afterbegin", article)
-                // }
+                    // }
 
-             
-            })
-            // console.log(section)
-            document.querySelector('[data-element="loading-popup"]').classList.remove("loading")
-            return section;
-        }))
-        // .catch(err => {
-        //     console.log(err)
-        //     console.log(errorMapping.get(err))
-        //     return errorMapping.get(err)
-        // })
+
+                })
+
+                // document.querySelector('[data-element="loading-popup"]').classList.remove("loading")
+                return section;
+            }))
+        .catch(err => {
+            console.log(err)
+            // return errorMapping.get(err)
+        })
 }
 
 
