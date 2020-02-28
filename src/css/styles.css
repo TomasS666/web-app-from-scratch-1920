@@ -1,11 +1,12 @@
 :root{
   --mobile: 25rem;
   --white: #fff;
+  --grey: #383838;
 }
 
 body{
   font-family: sans-serif;
-  background-color: #383838;
+  background-color: var(--grey);
   color: #fff;
   box-sizing: border-box;
   margin: 0;
@@ -19,6 +20,7 @@ header div{
   align-items: unset;
   justify-content: center;
   width: 100%;
+  margin: 5rem 0;
 }
 
 header div input{
@@ -34,7 +36,7 @@ header div a{
 }
 
 header div input:focus{
-  width: 100%;
+  width: 80%;
   transition: .3s;
 }
 
@@ -72,6 +74,9 @@ header div a{
   box-shadow: 0.1rem 0.1rem 0.4rem #2a2a2a;
   display: flex;
   flex-direction: column;
+  color: var(--white);
+
+
 }
 
 .wrapper article:nth-of-type(1){
@@ -82,6 +87,9 @@ header div a{
   color: var(--white);
   padding: 2rem;
   margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .wrapper a{
@@ -96,11 +104,39 @@ header div a{
   transform: scale(1.09);
   box-shadow: 0.4rem 0.4rem 0.4rem #2a2a2a;
   transition: all .3s;
+  /* background-color: #fff; */
+}
+
+.wrapper article:hover h3{
+  color: black;
+  background-color: var(--white);
+  transition: all .3s;
+}
+
+.detail-section article figure{
+  display: flex;
+  place-content: center;
 }
 
 footer{
   text-align: center;
 }
+
+[data-element="loading-popup"]{
+  display: none;
+}
+
+[data-element="loading-popup"].loading{
+  width: 100vw;
+  height: 100vh;
+  background-color: grey;
+  position: fixed;
+  top: 0;
+  display: block;
+  left: 0;
+}
+
+
 
 @media screen and (max-width: 67.875em){
   .wrapper{

@@ -14,93 +14,131 @@ import {
     Store
 } from "../../helpers/storeData";
 
+import {
+    genreList
+} from "../../genreList"
+
+
+import {
+    cleanObjects
+} from '../../helpers/data/cleaning'
+
 function Movie(id) {
     console.log(id + "fwefe")
 
-    getData(`movie/${id}`)
+    return getData(`movie/${id}`)
         .then(data => data.json())
+        .then(json => {
+            // console.log(json)
+            // return cleanObjects(json.results, ["id", "title", "poster_path", "vote_average"])
+            return json;
+        })
         .then(movie => {
+
             console.log(movie)
 
-            const section = createAndAppend("section", document.querySelector("main"));
-            const article = createAndAppend("article", section)
-            const h1 = createAndAppend("h1", article);
+            const section = createAndAppend("section");
+            section.setAttribute("class", "detail-section")
+            // const article = createAndAppend("article", section)
 
-            h1.textContent = movie.title;
+            const article = `
+
+                <article>
+                    <header>
+                        <h1>${movie.title}</h1>
+                    </header>
+                    <figure>
+                        <img src="https://image.tmdb.org/t/p/w342/${movie.poster_path}" alt="${movie.title}">
+                        <figcaption>
+                            <div>Genres: ${movie.genres.map(obj => obj.name).join(", ")} </div>
+                            <div>${movie.overview}</div>
+                        </figcaption>
+                    </figure>
+                </article>
+            
+        `;
+
+            section.insertAdjacentHTML("afterbegin", article)
+
+            return section;
 
         })
 
 }
 
+// const errorMapping = new Map();
 
 
-console.log(fakeData)
+
+// errorMapping.set("TypeError: Failed to fetch", "Sorry! Something went wrong with your network connection.")
+
+// const errorMapping = [
+//     "TypeError: Failed to fetch":connectionFail
+// ]
+
+// const ErrMsg = {
+//     connectionFail: "Sorry! Something went wrong with your network connection."
+// }
+
+// console.log(fakeData)
 
 function Genre(params, genreObj) {
-    console.log("test")
-    // getData("discover/movie", params)
-    //     .then(data => data.json())
-    //     .then(jsonData => {
-    //         console.log(jsonData)
-    const jsonData = fakeData;
+    console.log(params)
 
-    // const section = createAndAppend("section", document.querySelector("main"));
-    const section = createAndAppend("section");
-    const h2 = createAndAppend("h2", section);
-    const wrapper = createAndAppend("div", section)
+    return (getData("discover/movie", `with_genres=${params}`)
+            .then(response => {
+                console.log(response.status)
 
-    section.setAttribute("data-genre-name", genreObj.name)
-    h2.textContent = genreObj.name;
-    wrapper.setAttribute("class", "wrapper")
-    
-    Store.set("savedData", JSON.stringify(jsonData.results))
+                if (!response.ok) {
+                    throw Error(response.statusText)
+                } else {
+                    return response;
+                }
+            })
+            .then(data => data.json())
+            .then(json => {
+                return cleanObjects(json.results, ["id", "title", "poster_path", "vote_average"])
+            })
+            .then(jsonData => {
 
-    jsonData.results.forEach(obj => {
+                console.log(jsonData)
 
-        // const link = createAndAppend(
-        //     "a",
-        //     wrapper
-        // )
+                const section = createAndAppend("section");
+                const h2 = createAndAppend("h2", section);
+                const wrapper = createAndAppend("div", section)
 
-       
+                section.setAttribute("data-genre-name", genreObj.name)
+                h2.textContent = genreObj.name;
+                wrapper.setAttribute("class", "wrapper")
 
-        const article = `
+                // Store.set("savedData", JSON.stringify(jsonData.results))
+
+                jsonData.map((obj, i) => {
+                    const article = `
             <a href="#movie/${obj.id}">
                 <article>
                     <h3>${obj.title}</h3>
-                    <img src="${obj.poster_path}" alt="${obj.title}">
+                    <img src="https://image.tmdb.org/t/p/w342/${obj.poster_path}" alt="${obj.title}">
+                    <div data-ui="rating">${obj.vote_average}</div>
                 </article>
             </a>
         `;
 
-        wrapper.insertAdjacentHTML("afterbegin", article)
-
-        // const article = createAndAppend(
-        //     "article", 
-        //     link
-        // );
+                    // if(i <= 4){
+                    // console.log(i)
+                    wrapper.insertAdjacentHTML("afterbegin", article)
+                    // }
 
 
-        // const h3 = createAndAppend(
-        //     "h3",
-        //     article,
-        //     obj.title
-        // );
+                })
 
-        // link.setAttribute("href", `#movie/${obj.id}`)
-        // const image = createAndAppend(
-        //     "img",
-        //     article
-        // );
-
-        // image.src = `https://image.tmdb.org/t/p/w342/${obj.poster_path}`;
-
-
-    })
-    section.append(wrapper)
-
-    document.querySelector("main").append(section)
-    // })
+                // document.querySelector('[data-element="loading-popup"]').classList.remove("loading")
+                return section;
+            }))
+        .catch(err => {
+            console.log(err)
+            // return errorMapping.get(err)
+        })
 }
 
 

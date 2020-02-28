@@ -86,4 +86,3 @@ This approach of using both my own ```createAndAppend()``` and template literals
 ## License
 
 [MIT License Copyright (c) 2020 Tomas S](https://github.com/TomasS666/web-app-from-scratch-1920/blob/master/LICENSE)
-
