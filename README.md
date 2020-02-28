@@ -45,8 +45,7 @@ To get a list of movies of a certain genre:
 I'm fetching movies by genre. Within the render of the genres with movies I apply a ```#movie/{id}``` to anchors around the movie wrapper. When the user clicks on a movie, my routie takes the id param and uses it to fetch the movie data itself. With that data I render a detail-page with it's own sub components.
 
 ## Data manipulation
-
-### Guide
+I made a cleanup pattern which takes the data and an array with the desired fields with the help of Guido and Kris.
 
 ### Limit
 The rate limit has been removed. Yet after some time I retrieved the data of a genre and I saved it locally temporarily so I wouldn't overload the server of such a nice company. 
@@ -67,12 +66,12 @@ Single page detail page
 ## Future features
 I've gotten in to the shadow dom way too late, but better late than never. I was very eager to apply this system with actual webcomponents into my web-app, but due time I have to keep my hands of it and finish the foundation I've been working on.
 
-## References
-
 ## Acknowledgements
-Nick
-Ramon 
-Kris
+Ramon with the diagrams. I had some real struggles with them and he helped me through.
+Guido with the puzzle to fix a generic cleanup function.
+Kris with the last pieces of the puzzle to make the cleanup function generic.
+
+Cleaning the dom function based on [https://www.tutorialspoint.com/How-can-I-remove-all-child-elements-of-a-DOM-node-in-JavaScript](https://www.tutorialspoint.com/How-can-I-remove-all-child-elements-of-a-DOM-node-in-JavaScript)
 
 ## Proces
 ### CreateAndAppend
