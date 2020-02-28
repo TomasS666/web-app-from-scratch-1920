@@ -1,7 +1,5 @@
 This product uses the TMDb API but is not endorsed or certified by TMDb.
 
-<Maybe a table of contents here? 📚>
-
 ### Demo: https://tomass666.github.io/web-app-from-scratch-1920/
 
 ![WAFS - Movies](https://user-images.githubusercontent.com/49723502/74514641-4b9d7180-4f0d-11ea-894b-5f32e328dcfc.png)
@@ -38,7 +36,8 @@ I'm fetching data on the following endpoints:
 
 To get a list of movies of a certain genre:
 ```
-/discover/with_genre={id}
+/discover/movie/with_genre={id}
+/movie/{id}
 ```
 
 ### Used data
