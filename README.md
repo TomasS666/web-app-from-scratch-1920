@@ -29,10 +29,10 @@ It would have been nice to also offer them information about movies which are in
 
 
 ## Actor diagram
-![actor-diagram](https://user-images.githubusercontent.com/49723502/74514450-de89dc00-4f0c-11ea-88cb-9e92d2cf906b.png)
+![actor-diagram](https://github.com/TomasS666/web-app-from-scratch-1920/blob/master/images-project/Actor.diagram.png)
 
 ## Interaction diagram
-
+![Interaction diagram](https://github.com/TomasS666/web-app-from-scratch-1920/blob/master/images-project/Actor.diagram.png)
 ## API TheMovieDB
 I'm fetching data on the following endpoints:
 
