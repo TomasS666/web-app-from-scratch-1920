@@ -2,7 +2,7 @@ import {isArgumentGiven} from "../isArgumentGiven"
 
 function getData(endpoint, params){
     
-    const apiKey = "8ff1964e3739e2af5c150b85ecad19de";
+    const apiKey = "";
     let parameters = '';
     if(params){
          parameters = `&${params}`;
